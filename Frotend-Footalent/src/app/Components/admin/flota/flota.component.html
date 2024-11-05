@@ -1,0 +1,91 @@
+<!-- Spinner de carga -->
+<div *ngIf="isLoading" class="absolute inset-0 flex justify-center items-center backdrop-blur-sm bg-opacity-30 z-10">
+  <div class="loader"></div>
+</div>
+
+<div class="container mx-auto bg-white">
+  <div *ngIf="!isLoading" class="p-4">
+
+        <!-- Search Input Field -->
+    <div class="flex justify-center">
+      <div class="m-1 w-full lg:w-2/4">
+          <input
+              type="text"
+              [(ngModel)]="searchTerm"
+              (input)="searchForms()"
+              placeholder="Buscar..."
+              class="border p-2 pl-3 w-full pr-10 rounded"
+          />
+      </div>
+    </div>
+
+
+    <!-- Grid container for vehicle cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 gap-x-4">
+      <!-- Vehículo -->
+      <button [routerLink]="['/perfil-vehiculo', vehicle._id]"
+        class="flex p-2 bg-white text-left rounded border border-cardBorder w-full mt-2 items-center justify-between"
+        *ngFor="let vehicle of filteredForms">
+
+      <!-- Logo del vehículo -->
+      <div class="flex-none w-11 h-11 mr-2">
+        <img [src]="getLogo(vehicle.make)" alt="{{ vehicle.make }}" class="w-full h-full object-contain" />
+      </div>
+
+        <!-- Información del vehículo -->
+        <div class="flex-1 w-32 m-2">
+          <h2 class="text-lg font-medium">{{ vehicle.make }} - {{ vehicle.model }}</h2>
+          <p class="text-gray-500">{{ vehicle.plate | uppercase }}</p>  
+        </div>
+
+        <!-- Estado y flecha al final -->
+        <div class="flex items-center space-x-4">
+          <!-- Estado del vehículo -->
+          <span class="flex items-center rounded-full px-2 py-1 font-medium text-sm min-w-20" [ngClass]="{
+                  'bg-disponible text-textDisponible ': vehicle.status === 'Disponible', 
+                  'bg-reparacion text-textReparacion': vehicle.status === 'Reparacion',
+                  'bg-ocupado text-textOcupado': vehicle.status === 'Ocupado',
+                  'bg-deshabilitado text-textDeshabilitado': vehicle.status === 'Deshabilitado'
+                }">
+            
+            {{ vehicle.status | titlecase }}
+          </span>
+
+          <!-- Botón de flecha -->
+        </div>
+        <div class="flex-none w-3 ml-2 cursor-pointer" [routerLink]="['/perfil-vehiculo', vehicle._id]"
+          routerLinkActive="router-link-active">
+          <i class="fa-solid fa-chevron-right"></i>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Bottom bar for mobile only (fixed at the bottom of the screen) -->
+<div id="bottom-bar"
+  class="fixed bottom-0 left-0 right-0 bg-blue-100 shadow-lg p-2 transition-transform duration-300 transform translate-y-0 md:hidden">
+  <div class="flex justify-center">
+    <button routerLink="/agregar-vehiculo" class="w-full bg-[#0a135d] rounded p-2 text-white text-center m-2">
+      Agregar vehiculo
+    </button>
+  </div>
+</div>
+
+<!-- Regular button for desktop view, hidden on mobile -->
+<div class="container hidden md:block px-6  mt-[30px] mx-auto mb-[150px] w-[745px]">
+  <div class="flex justify-center w-[745px]">
+    <!-- Spacer on mobile, button under the second column on desktop -->
+    <div></div> <!-- Empty div for first column -->
+    <div class="mt-4">
+      <button routerLink="/agregar-vehiculo" class="bg-[#0a135d] w-[745px] rounded p-2 text-white text-center m-2">
+        Agregar vehiculo
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<div class="relative bottom-0 left-0 right-0">
+  <app-footer-desktop></app-footer-desktop>
+</div>

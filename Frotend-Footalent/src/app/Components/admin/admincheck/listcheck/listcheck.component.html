@@ -1,0 +1,144 @@
+<!-- Spinner de carga -->
+<div *ngIf="isLoading" class="absolute inset-0 flex justify-center items-center backdrop-blur-sm bg-opacity-30 z-10">
+  <div class="loader"></div>
+</div>
+
+<!-- header.component.html -->
+<header 
+    id="top-bar"
+class="fixed top-0 left-0 right-0 z-10 bg-[#0a135d] shadow transition-transform duration-300 translate-y-0">
+    <div class="flex justify-between p-3">
+      <button (click)="goBack()" class="text-blue-500">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M15 18L9 12L15 6" stroke="#FAFAFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+        <h1 class="text-lg text-white pt-1">Secciones</h1>
+      <app-togglemenu></app-togglemenu>
+    </div>
+  </header>
+  
+
+
+  <div class="container mx-auto p-4 pt-20">
+
+    <!-- Display List of Sections -->
+
+    <li 
+  *ngFor="let section of sections"  
+  class="bg-[#E8EFFF] border font-medium p-1 mb-2 flex justify-between items-center rounded"
+>
+  <!-- Inline display or input for creating/editing -->
+  <div class="m-2 w-3/5 text-normal" (click)="onSectionClick(section)">
+    <!-- Show the input field when editing -->
+    <ng-container *ngIf="isEditing && editedSection?._id === section._id; else viewSection">
+      <input 
+        type="text" 
+        [(ngModel)]="sectionName"
+        class="border p-2 w-full rounded"
+        placeholder="Enter section name"
+        (click)="$event.stopPropagation()"
+      />
+    </ng-container>
+    <ng-template #viewSection>
+      {{ section.name }}
+    </ng-template>
+  </div>
+
+  <!-- Action buttons for edit, delete, and add new section -->
+  <div class="flex w-2/5 justify-end relative">
+    <!-- Three dots icon to open the modal on smaller screens -->
+    <div class="block md:hidden">
+      <ng-container *ngIf="isEditing && editedSection?._id === section._id; else mobileDefaultActions">
+        <!-- Show Guardar and Cancelar buttons when editing on smaller screens -->
+        <button class="border border-blue-400 text-blue-500 bg-blue-100 p-1 rounded" (click)="updateSection()">
+          Guardar
+        </button>
+        <button class="bg-gray-100 text-red-500 border border-red-500 px-3 p-1 mx-2 rounded" (click)="cancelEdit($event)">
+          x
+        </button>
+      </ng-container>
+
+      <!-- Default three dots for view mode (small screens) -->
+      <ng-template #mobileDefaultActions>
+        <button (click)="toggleModal(section._id!, $event)" class="p-2">
+          <i class="fa-solid fa-ellipsis-vertical"></i>
+        </button>
+
+        <!-- Modal for lower screens with edit and delete options -->
+        <div 
+          *ngIf="isModalOpen[section._id!]" 
+          class="absolute top-8 right-0 bg-white shadow-md rounded-lg z-10 p-2 w-32"
+        >
+          <button class="w-full text-left border border-blue-400 text-blue-500 bg-blue-100 p-1 rounded mb-2" (click)="editSection(section, $event); toggleModal(section._id!,$event)">
+            Editar
+          </button>
+          <button class="w-full text-left bg-red-100 text-red-500 border border-red-500 p-1 rounded" (click)="deleteSection(section._id!); toggleModal(section._id!,$event)">
+            Eliminar
+          </button>
+        </div>
+      </ng-template>
+    </div>
+
+    <!-- Default actions for larger screens -->
+    <div class="hidden md:flex">
+      <div *ngIf="isEditing && editedSection?._id === section._id; else defaultActions">
+        <button class="border border-blue-400 text-blue-500 bg-blue-100 p-1 rounded" (click)="updateSection()">
+          Guardar
+        </button>
+        <button class="bg-gray-100 text-red-500 border border-red-500 p-1 ml-2 rounded" (click)="cancelEdit($event)">
+          Cancelar
+        </button>
+      </div>
+
+      <!-- Default actions for view mode on larger screens -->
+      <ng-template #defaultActions>
+        <button class="border border-blue-400 text-blue-500 bg-blue-100 p-1 rounded" (click)="editSection(section, $event)">
+          Editar
+        </button>
+        <button class="border border-red-500 bg-red-100 text-red-500 p-1 ml-2 rounded" (click)="deleteSection(section._id!)">
+          Eliminar
+        </button>
+      </ng-template>
+    </div>
+  </div>
+</li>
+
+  
+        <!-- If in Add New mode, show a separate input field for new section -->
+
+        <li *ngIf="isAdding" class="border border-blue-400 text-blue-500 bg-blue-100 p-2 mb-2 flex justify-between items-center rounded">
+          <input 
+            type="text" 
+            [(ngModel)]="sectionName"
+            class="border p-2 w-3/5 rounded"
+            placeholder="ej: Nueva Sección"
+          />
+          <div class="flex w-2/5 justify-end">
+            <button class="border border-blue-400 text-blue-500 bg-white p-1 rounded" (click)="createSection()">
+              Guardar
+            </button>
+            <button class="bg-red-100 text-red-500 px-3 ml-2 border border-red-500 rounded" (click)="cancelAddNew()">
+              x 
+            </button>
+          </div>
+        </li>
+      
+    </div>
+  
+
+
+
+<div>
+    <!-- Fixed button at the bottom of the screen to add new section -->
+    <div id="bottom-bar"
+        class="fixed bottom-0 left-0 right-0 bg-[#E8EFFF] shadow-lg p-2 transition-transform duration-300 transform translate-y-0">
+      <button
+        class="w-full bg-[#0a135d] rounded p-2 text-white text-center"
+        (click)="enableAddNew()"
+      >
+        Agregar Sección
+      </button>
+    </div>
+  </div>
+  

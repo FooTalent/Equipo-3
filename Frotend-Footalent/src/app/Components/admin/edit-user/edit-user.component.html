@@ -1,0 +1,191 @@
+<body>
+    <div *ngIf="isLoading"
+        class="absolute inset-0 flex justify-center items-center backdrop-blur-sm bg-opacity-30 z-10">
+        <div class="loader"></div>
+    </div>
+
+
+    <header id="top-bar" class="fixed top-0 left-0 right-0 z-10 bg-[#0a135d] shadow transition-transform duration-300">
+        <div class="flex justify-between items-center p-4">
+            <button (click)="goBack()" class="text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M15 18L9 12L15 6" stroke="#FAFAFA" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </button>
+            <h1 class="text-lg text-white text-center my-2">Editar perfil</h1>
+            <app-togglemenu />
+        </div>
+    </header>
+
+    <section class="mainSection flex flex-col items-center justify-center px-6 py-8 mx-auto pt-24 mb-40 overflow-y">
+        <div *ngIf="!isLoading" class="p-4">
+
+            <div class="w-full md:mt-0 sm:max-w-md xl:p-0">
+
+                <form class="space-y-4 md:space-y-6" action="#">
+
+                    <!-- <select id="status" name="status" [(ngModel)]="user.status" (change)="onStatusChange()"
+                        class="text-gray-900 text-sm focus:ring-primary-600 block w-full p-2.5 dark:placeholder-gray-400 dark:focus:ring-blue-500"
+                        required>
+                        <option *ngFor="let item of statusOptions" [value]="item.value">{{ item.viewValue }}</option>
+                    </select> -->
+
+                    <div class="relative inline-block text-left w-36 text-white text-sm">
+                        <!-- Trigger dropdown with lighter background for the selected option -->
+                        <div class="p-1 border border-gray-300 rounded-3xl flex items-center justify-between cursor-pointer"
+                            [ngClass]="{
+                            'bg-[#ABFF95]': user.status === 'Activo', 
+                            'bg-[#C39F0B]': user.status === 'Inhabilitado', 
+   
+                          }" (click)="toggleDropdown()">
+                            <div class="flex items-center">
+                                <!-- Colored ball to represent the status -->
+                                <span class="flex items-center justify-center h-2 w-2 rounded-full mx-2" [ngClass]="{
+                                'bg-[#ABFF95]': user.status === 'Activo',
+                                'bg-[#815B12]': user.status === 'Inhabilitado',
+      
+                              }"></span>
+                                {{ user.status }}
+                            </div>
+                            <i class="fas fa-chevron-down mr-1"></i>
+                        </div>
+
+                        <!-- Dropdown menu -->
+                        <div *ngIf="isDropdownOpen"
+                            class="absolute z-10 mt-2 w-full rounded-md bg-white shadow-lg text-black">
+                            <div class="py-1">
+                                <div class="flex items-center px-4 py-2 cursor-pointer hover:bg-gray-100"
+                                    (click)="onStatusClick(true)">
+                                    <span
+                                        class="flex items-center justify-center h-4 w-4 rounded-full mr-2 bg-green-600"></span>
+                                    Habilitado
+                                </div>
+                                <div class="flex items-center px-4 py-2 cursor-pointer hover:bg-gray-100"
+                                    (click)="onStatusClick(false)">
+                                    <span
+                                        class="flex items-center justify-center h-4 w-4 rounded-full mr-2 bg-red-500"></span>
+                                    Inhabilitado
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <!-- ******************************** -->
+
+                    <div>
+                        <label for="nombre" class="block mb-2 text-sm font-medium">Nombre y Apellido</label>
+                        <input [(ngModel)]="user.name" (keypress)="onlyLetters($event)" type="text" name="nombre"
+                            id="nombre"
+                            class="text-gray-600 text-sm focus:ring-primary-600 block w-full p-2.5 dark:placeholder-gray-400 dark:focus:ring-blue-500"
+                            placeholder="John Smith" readonly>
+                    </div>
+
+                    <div class="flex justify-between w-full gap-5">
+                        <div class="w-1/2">
+                            <label for="dni" class="block mb-2 text-sm font-medium">DNI</label>
+                            <input [(ngModel)]="user.dni" type="text" name="DNI" id="DNI"
+                                (keypress)="onlyNumbers($event)"
+                                class="text-gray-600 text-sm focus:ring-primary-600 block w-full p-2.5 dark:placeholder-gray-400 dark:focus:ring-blue-500"
+                                placeholder="12345789" readonly>
+                        </div>
+                        <div class="w-1/2">
+                            <label for="phone" class="block mb-2 text-sm font-medium">Teléfono</label>
+                            <input [(ngModel)]="user.phone" type="text" name="phone" id="phone"
+                                (keypress)="onlyNumbers($event)"
+                                class="text-gray-900 text-sm focus:ring-primary-600 block w-full p-2.5 dark:placeholder-gray-400 dark:focus:ring-blue-500"
+                                placeholder="12345789" required>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="email" class="block mb-2 text-sm font-medium">Correo electrónico</label>
+                        <input [(ngModel)]="user.email" type="text" name="email" id="email"
+                            class="text-gray-900 text-sm focus:ring-primary-600 block w-full p-2.5 dark:placeholder-gray-400 dark:focus:ring-blue-500"
+                            placeholder="john@mail.com" required>
+                    </div>
+
+                    <div>
+                        <label for="rolUsuario" class="block mb-2 text-sm font-medium">Rol de usuario</label>
+                        <select id="rolUsuario" name="rolUsuario" [(ngModel)]="user.rol"
+                            class="text-gray-900 text-sm focus:ring-primary-600 block w-full p-2.5 dark:placeholder-gray-400 dark:focus:ring-blue-500"
+                            required>
+
+                            @for (item of userOptions; track item) {
+                            <option [value]="item.value">{{item.viewValue}}</option>
+                            }
+
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="direccion" class="block mb-2 text-sm font-medium">Dirección</label>
+                        <input [(ngModel)]="user.address" type="text" name="direccion" id="direccion"
+                            class="text-gray-900 text-sm focus:ring-primary-600 block w-full p-2.5 dark:placeholder-gray-400 dark:focus:ring-blue-500"
+                            placeholder="Miguel Angel Carcano, 1195" required>
+                    </div>
+
+                    <hr>
+                    <div>
+                        <label for="licencia" class="block mb-2 text-sm font-medium">Número de licencia</label>
+                        <input [(ngModel)]="user.licencia" type="text" name="licencia" id="licencia"
+                            (keypress)="onlyNumbers($event)"
+                            class="text-gray-600 text-sm focus:ring-primary-600 block w-full p-2.5 dark:placeholder-gray-400 dark:focus:ring-blue-500"
+                            placeholder="12345789" readonly>
+                    </div>
+
+                    <div class="flex justify-between w-full gap-5">
+                        <div class="w-1/2">
+                            <label for="tipoLicencia" class="block mb-2 text-sm font-medium">Tipo de licencia</label>
+                            <select id="tipoLicencia" name="tipoLicencia" [(ngModel)]="user.type_licence"
+                                class="text-gray-900 text-sm focus:ring-primary-600 block w-full p-2.5 dark:placeholder-gray-400 dark:focus:ring-blue-500"
+                                required>
+
+                                @for (item of licenceOptions; track item) {
+                                <option [value]="item.value">{{item.viewValue}}</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="w-1/2">
+                            <label for="vencimiento" class="block mb-2 text-sm font-medium">Vencimiento</label>
+                            <input [(ngModel)]="user.expiration_licence" type="date" name="vencimiento" id="vencimiento"
+                                class="text-gray-900 text-sm focus:ring-primary-600 block w-full p-2.5 dark:placeholder-gray-400 dark:focus:ring-blue-500"
+                                required>
+                        </div>
+                    </div>
+
+
+
+                </form>
+                
+            </div>
+        </div>
+
+    </section>
+
+   
+
+    <section class="other-btns flex flex-col md:w-full md:mt-0 sm:max-w-md xl:p-0">
+        <div class="btn-container w-full p-4 sm:mx-[20px] sm:w-[91%] flex flex-col gap-5 justify-center">
+            <button style="border: 1px solid #0A135D;" (click)="goToHistory()"
+                class=" bg-white font-normal mx-auto text-blue-950 w-full px-6 py-2 rounded">
+                Historial de vehículos
+            </button>
+
+            <button (click)="editUser()" class="bg-btnColor font-normal mx-auto text-white w-full px-4 py-2 rounded">
+                Guardar perfil
+            </button>
+        </div>
+    </section>
+
+    
+
+
+    <div class="relative bottom-0 left-0 right-0 w-full">
+        <app-footer-desktop></app-footer-desktop>
+    </div>
+</body>

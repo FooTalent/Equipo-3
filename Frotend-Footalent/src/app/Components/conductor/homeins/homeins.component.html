@@ -1,0 +1,101 @@
+<div class="container mx-auto bg-white">
+  <div class="gap-[8px] p-4">
+    <!-- Loop through all vehicles -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 gap-x-">
+
+      <ng-container *ngFor="let vehicle of flotas" class="" >
+        <!-- Only show 'Disponible' status -->
+        <ng-container *ngIf="vehicle.status === 'Disponible'">
+      <div 
+        class="flex p-2 bg-white rounded border border-cardBorder w-full mt-2 items-center justify-between cursor-pointer" 
+        (click)="openins(vehicle.category, vehicle._id)"  
+        >
+
+        
+          <!-- Vehicle info (Make and Model) -->
+          <div class="flex-1 w-32 m-2" >
+            <h2 class="text-lg font-medium">{{ vehicle.make }} - {{ vehicle.model }}</h2>
+            <p class="text-gray-500">{{ vehicle.plate | uppercase }}</p>
+          </div>
+          
+          <!-- Status badge -->
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center rounded-full px-2 py-1 font-medium text-sm min-w-20" [ngClass]="{
+                  'bg-disponible text-textDisponible ': vehicle.status === 'Disponible', 
+                  'bg-reparacion text-textReparacion': vehicle.status === 'Reparacion',
+                  'bg-ocupado text-textOcupado': vehicle.status === 'Ocupado',
+                  'bg-deshabilitado text-textDeshabilitado': vehicle.status === 'Deshabilitado'
+                }">
+              
+              {{ vehicle.status }}
+            </span>
+          </div>
+          
+          <!-- Arrow icon -->
+          <div class="flex-none w-3 ml-2">
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
+        
+
+        <!-- 
+        Uncomment to display other statuses in the future
+        
+        <ng-container *ngIf="vehicle.status === 'Reparacion'">
+          <div class="flex-1 w-32 m-2">
+            <h2 class="text-lg font-medium">{{ vehicle.make }} - {{ vehicle.model }}</h2>
+            <p class="text-gray-500">{{ vehicle.plate | uppercase }}</p>
+          </div>
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center rounded-full px-2 py-1 w-32 text-white text-sm bg-reparacion">
+              <i class="fa-solid fa-circle fa-2xs mr-2 text-textReparacion"></i>  
+              {{ vehicle.status }}
+            </span>
+          </div>
+          <div class="flex-none w-3 ml-2 cursor-pointer" routerLink="inspeccion2">
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="vehicle.status === 'Ocupado'">
+          <div class="flex-1 w-32 m-2">
+            <h2 class="text-lg font-medium">{{ vehicle.make }} - {{ vehicle.model }}</h2>
+            <p class="text-gray-500">{{ vehicle.plate | uppercase }}</p>
+          </div>
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center rounded-full px-2 py-1 w-32 text-white text-sm bg-ocupado">
+              <i class="fa-solid fa-circle fa-2xs mr-2 text-textOcupado"></i>  
+              {{ vehicle.status }}
+            </span>
+          </div>
+          <div class="flex-none w-3 ml-2 cursor-pointer" routerLink="inspeccion2">
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="vehicle.status === 'Deshabilitado'">
+          <div class="flex-1 w-32 m-2">
+            <h2 class="text-lg font-medium">{{ vehicle.make }} - {{ vehicle.model }}</h2>
+            <p class="text-gray-500">{{ vehicle.plate | uppercase }}</p>
+          </div>
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center rounded-full px-2 py-1 w-32 text-white text-sm bg-deshabilitado">
+              <i class="fa-solid fa-circle fa-2xs mr-2 text-textDeshabilitado"></i>  
+              {{ vehicle.status }}
+            </span>
+          </div>
+          <div class="flex-none w-3 ml-2 cursor-pointer" routerLink="inspeccion2">
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
+        </ng-container>
+        -->
+
+      </div>
+    </ng-container>
+    </ng-container>
+    </div>
+    
+  </div>
+</div>
+<div class="relative bottom-0 left-0 right-0">
+  <app-footer-desktop></app-footer-desktop>
+</div>

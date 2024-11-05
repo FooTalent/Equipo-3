@@ -1,0 +1,97 @@
+body{ 
+  background-color: #FAFAFA;
+}
+
+.loader {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #0A135D;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  margin-left: 15px;
+  justify-content: space-between;
+}
+
+.driverPic {
+  border-radius: 5px;
+}
+
+
+.driverName {
+  text-transform: capitalize;
+  font-family: "Roboto", sans-serif;
+  color: #0A0A0A;
+}
+
+.subtitle {
+  color: #727679;
+  font-family: "Roboto", sans-serif;
+  
+}
+
+.example-box {
+  margin-bottom: 5px;
+  padding: 10px 15px;
+  border: solid 1px #ccc;
+  color: rgba(0, 0, 0, 0.87);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  box-sizing: border-box;
+  background: white;
+  font-size: 14px;
+
+}
+
+.example-box:last-child {
+  margin-bottom: 30px;
+}
+
+.conductores {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+button.example-box {
+  width: 100%;
+}
+
+@media (max-width: 1023px) {
+  .conductores {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) {
+  .conductores {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-content: center;
+    margin: 20px 10% auto 10%;
+  }
+
+  .bottom-bar{
+    position: static;
+        width: 745px;
+        margin: 0 auto 150px auto;
+        background-color: #FAFAFA;
+      }
+
+}

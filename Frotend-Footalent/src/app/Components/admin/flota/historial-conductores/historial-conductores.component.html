@@ -1,0 +1,51 @@
+<header class="relative flex items-center bg-bgColorBlue text-white p-4 shadow-md">
+    <button class="absolute left-0 p-4" (click)="goBack()">
+        <i class="fas fa-chevron-left text-white"></i>
+    </button>
+
+    <!-- Información del vehículo centrada -->
+    <div class="mx-auto flex items-center">
+        <h1 class="text-xl font-medium">Historial de conductores</h1>
+    </div>
+</header>
+
+<div *ngIf="isLoading" class="absolute inset-0 flex justify-center items-center backdrop-blur-sm bg-opacity-30 z-10">
+    <div class="loader"></div>
+</div>
+
+<div class="w-full mt-[100px] mb-[150px] mx-auto mt-10">
+    <div class="overflow-x-auto text-black shadow-lg m-3">
+        <table class="min-w-full table-auto">
+            <thead class="bg-bgColorBlue text-white">
+                <tr>
+                    <th class="p-2 text-left">Conductor</th>
+                    <th class="p-2 text-left">Fecha de uso</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="border-b">
+                    <td class="p-2"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="p-4">
+    <h2 class="text-2xl font-semibold mb-4">Historial de Conductores</h2>
+    <table class="table-auto w-full border">
+      <thead>
+        <tr class="bg-gray-200">
+          <th class="px-4 py-2 border">Nombre del Conductor</th>
+          <th class="px-4 py-2 border">Fecha de Conducción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let driver of driverHistory" class="text-center">
+          <td class="px-4 py-2 border">{{ driver.driverName }}</td>
+          <td class="px-4 py-2 border">{{ driver.submissionDate | date: 'medium' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
